@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PhongKhamNhaKhoa.Model
 {
-    public class PhieuKhamRequeset
+    public class PhieuKhamRequest
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
@@ -16,6 +16,6 @@ namespace PhongKhamNhaKhoa.Model
         public string NameDV { get; set; }
         public string NamePK { get; set; }
         public DateTime CreateDate { get; set; }
-        public Status Status { get; set; }
+        public Status? Status { get; set; }
     }
 }
