@@ -1,6 +1,4 @@
-using Blazored.Toast;
 using BlazorServer.CRUD.Services;
-using BlazorServer.CRUD.Services.ForMemBer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -24,8 +22,6 @@ namespace BlazorServer.CRUD
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddBlazoredToast();
-
             services.AddRazorPages();
 
             services.AddServerSideBlazor();
@@ -33,10 +29,6 @@ namespace BlazorServer.CRUD
             services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:5001")});
 
             services.AddTransient<IPhieuKhamService, PhieuKhamService>();
-            services.AddTransient<KhachHangService, KhachHangService>();
-            services.AddTransient<NhanVienService, NhanVienService>();
-            services.AddTransient<DichVuService, DichVuService>();
-            services.AddTransient<PhongKhamService, PhongKhamService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

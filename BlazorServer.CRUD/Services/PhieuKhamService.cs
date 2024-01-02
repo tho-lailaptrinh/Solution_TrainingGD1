@@ -14,23 +14,10 @@ namespace BlazorServer.CRUD.Services
         {
             _httpClient = httpClient;
         }
-
-        public async Task<bool> CreatePhieuKham(PhieuKhamCreateRequest CreatePK)
-        {
-            var result = await _httpClient.PostAsJsonAsync("/api/phieukham", CreatePK);
-            return result.IsSuccessStatusCode;
-        }
-
-        public async Task<List<PhieuKhamRequest>> GetListPK()
+        public async Task<List<PhieuKhamRequeset>> GetListPK()
         {
             // gửi yêu cầu đến Api
-            var result = await _httpClient.GetFromJsonAsync<List<PhieuKhamRequest>>("/api/phieukham");
-            return result;
-        }
-
-        public async Task<List<PhieuKhamRequest>> GetListPKCT(string id)
-        {
-            var result = await _httpClient.GetFromJsonAsync<List<PhieuKhamRequest>>($"api/chitietpk/{id}");
+            var result = await _httpClient.GetFromJsonAsync<List<PhieuKhamRequeset>>("/api/phieukham");
             return result;
         }
     }

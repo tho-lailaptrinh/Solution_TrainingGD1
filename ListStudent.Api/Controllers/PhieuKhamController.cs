@@ -44,11 +44,6 @@ namespace PhongKhamNhaKhoa.Api.Controllers
             var task = await _phieuKhamrepo.GetById(id);
             task.Name = dto.Name;
             task.Status = dto.Status;
-            task.NameKH = dto.NameKH;
-            task.NameNV = dto.NameNV;
-            task.NameDV = dto.NameDV;
-            task.NamePK = dto.NamePK;
-            task.CreateDate = dto.CreateDate;
 
             var tasks = await _phieuKhamrepo.UpdatePK(task);
             return Ok(new PhieuKhamDto()

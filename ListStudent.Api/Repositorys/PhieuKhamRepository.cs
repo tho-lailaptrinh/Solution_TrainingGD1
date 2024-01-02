@@ -27,26 +27,24 @@ namespace PhongKhamNhaKhoa.Repositorys
         public async Task<IEnumerable<PhieuKhamDto>> GetPhieuKhams()
         {
             var result =  _context.PhieuKhams.ProjectTo<PhieuKhamDto>(_mapper.ConfigurationProvider);
-            var results = await result.ToListAsync();
-            return results;
+            var tolistResult = await result.ToListAsync();
+            return tolistResult;
         }
 
         public async Task<PhieuKhamDto> CreatePK(PhieuKhamCreateRequest pkcr)
         {
             PhieuKham phieuKham = new PhieuKham()
             {
-                Name = pkcr.Name,
+                Id = Guid.NewGuid(),
                 CreateDate = DateTime.Now,
                 IdKhachHang = pkcr.IdKhachHang,
                 IdDichVu = pkcr.IdDichVu,
                 IdPhongKham = pkcr.IdPhongKham,
-                IdNhanVien = pkcr.IdNhanVien,
-                Status = pkcr.Status,
-                Id = Guid.NewGuid(),
+                Name = pkcr.Name,
             };
             _context.PhieuKhams.Add(phieuKham);
             await _context.SaveChangesAsync();
-            return _mapper.Map<PhieuKhamDto>(phieuKham);
+            return null;
         }
         public async Task<PhieuKhamDto> UpdatePK(PhieuKhamDto pk)
         {
@@ -69,6 +67,7 @@ namespace PhongKhamNhaKhoa.Repositorys
 
         public async Task<PhieuKhamDto> GetById(Guid id)
         {
+            
             PhieuKham getId = await _context.PhieuKhams.FindAsync(id);
             return _mapper.Map<PhieuKhamDto>(getId);
         }

@@ -14,7 +14,7 @@ namespace PhongKhamNhaKhoa.Api.Entitis
         public Guid? IdPhongKham { get; set; }
         public Guid? IdNhanVien {  get; set; }
         public DateTime? CreateDate { get; set; }
-        public Status? Status { get; set; }
+        public Status Status { get; set; }
         public virtual KhachHang? KhachHang { get; set;}
         public virtual DichVu? DichVus { get; set; }
         public virtual PhongKham? PhongKham { get; set; }
