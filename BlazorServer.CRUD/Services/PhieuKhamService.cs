@@ -1,5 +1,4 @@
-﻿using BlazorServer.CRUD.Pages;
-using PhongKhamNhaKhoa.Model;
+﻿using PhongKhamNhaKhoa.Model;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -18,6 +17,17 @@ namespace BlazorServer.CRUD.Services
         {
             // gửi yêu cầu đến Api
             var result = await _httpClient.GetFromJsonAsync<List<PhieuKhamRequeset>>("/api/phieukham");
+            return result;
+        }
+        public async Task<bool> CreatePhieuKham(PhieuKhamCreateRequest CreatePK)
+        {
+            var result = await _httpClient.PostAsJsonAsync("/api/phieukham", CreatePK);
+            return result.IsSuccessStatusCode;
+        }
+
+        public async Task<PhieuKhamRequeset> GetListPKCT(string id)
+        {
+            var result = await _httpClient.GetFromJsonAsync<PhieuKhamRequeset>($"api/phieukham/{id}");
             return result;
         }
     }

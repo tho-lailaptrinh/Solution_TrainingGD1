@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using PhongKhamNhaKhoa.Api.AutoMapper.EntitiDto;
 using PhongKhamNhaKhoa.Api.Entitis;
 using PhongKhamNhaKhoa.Api.Repositorys;
@@ -13,10 +14,12 @@ namespace PhongKhamNhaKhoa.Api.Controllers
     [ApiController]
     public class PhieuKhamController : ControllerBase
     {
+        private readonly IMapper _mapper;
         private readonly IPhieuKhamRepository _phieuKhamrepo;
-        public PhieuKhamController(IPhieuKhamRepository phieukhamrepo)
+        public PhieuKhamController(IPhieuKhamRepository phieukhamrepo, IMapper mapper)
         {
             _phieuKhamrepo = phieukhamrepo;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -38,27 +41,17 @@ namespace PhongKhamNhaKhoa.Api.Controllers
             var result = await _phieuKhamrepo.CreatePK(pk);
             return Ok(result);
         }
-        [HttpPut]
-        public async Task<IActionResult> UpdatePK(Guid id,PhieuKhamDto dto)
-        {
-            var task = await _phieuKhamrepo.GetById(id);
-            task.Name = dto.Name;
-            task.Status = dto.Status;
 
-            var tasks = await _phieuKhamrepo.UpdatePK(task);
-            return Ok(new PhieuKhamDto()
-            {
-                Name = dto.Name,
-                Status = dto.Status,
-                Id = dto.Id,
-            });
+        [HttpPut]
+        public async Task<IActionResult> Updatepk(Guid id,PhieuKhamUpdateRequest request)
+        {
+            var tasks = await _phieuKhamrepo.UpdatePK(id , request);
+            return Ok(tasks);
         }
         [HttpDelete]
-        public async Task<IActionResult> DeletePK(Guid id,PhieuKhamDto dto)
+        public async Task<IActionResult> DeletePK(Guid id)
         {
-            var task = await _phieuKhamrepo.GetById(id);
-
-            var tasks = await _phieuKhamrepo.DeletePK(task);
+            var tasks = await _phieuKhamrepo.DeletePK(id);
             return Ok(tasks);
         }
     }

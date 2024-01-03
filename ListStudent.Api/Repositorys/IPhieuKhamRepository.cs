@@ -11,8 +11,8 @@ namespace PhongKhamNhaKhoa.Api.Repositorys
     {
          Task<IEnumerable<PhieuKhamDto>> GetPhieuKhams();
          Task<PhieuKhamDto> CreatePK(PhieuKhamCreateRequest pk);
-         Task<PhieuKhamDto> UpdatePK(PhieuKhamDto pk);
-         Task<PhieuKhamDto> DeletePK(PhieuKhamDto pk);
+         Task<PhieuKhamDto> UpdatePK(Guid id,PhieuKhamUpdateRequest pk);
+         Task<bool> DeletePK(Guid id);
          Task<PhieuKhamDto> GetById(Guid id);
         
     }

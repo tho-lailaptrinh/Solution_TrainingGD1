@@ -1,12 +1,11 @@
 ﻿using BlazorServer.CRUD.Services;
 using Microsoft.AspNetCore.Components;
-using PhongKhamNhaKhoa.Enum;
 using PhongKhamNhaKhoa.Model;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace BlazorServer.CRUD.Pages
+namespace BlazorServer.CRUD.Pages.ViewPhieuKham
 {
     public partial class PhieuKham
     {
@@ -18,6 +17,19 @@ namespace BlazorServer.CRUD.Pages
         {
             ListPhieuKham = await PhieuKhamService.GetListPK();
         }
+
+        void ShowPhieuKham(string id)
+        {
+            NavigationManager.NavigateTo("/ /{id}");
+        }
+        public void CreateNewPhieuKham()
+        {
+            NavigationManager.NavigateTo("/phieukhamcreate");
+        }
+        void UpdatePhieuKham()
+        {
+            NavigationManager.NavigateTo("/updatepk");
+        }
     }
-   
+
 }

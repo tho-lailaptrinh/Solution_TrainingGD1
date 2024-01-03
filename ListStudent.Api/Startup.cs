@@ -28,6 +28,10 @@ namespace PhongKhamNhaKhoa.Api
         {
             services.AddDbContext<MyDbContext>(option => option.UseSqlServer(Configuration.GetConnectionString("DefautConnection")));
             services.AddTransient<IPhieuKhamRepository, PhieuKhamRepository>(); // ?? api sd
+            services.AddTransient<INhanVienRepository, NhanVienRepository>();
+            services.AddTransient<IKhachHangRepository, KhachHangRepository>();
+            services.AddTransient<DichVuRepository, DichVuRepository>();
+            services.AddTransient<PhongKhamRepository, PhongKhamRepository>();
 
             services.AddAutoMapper(cfg => cfg.AddProfile(new MappingConfigProfile()));
 

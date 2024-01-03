@@ -1,0 +1,41 @@
+﻿@page "/khachhangcreate";
+@inject KhachHangService KhachHangSer;
+@using BlazorServer.CRUD.Services.ForMemBer;
+<h3>KhachHangCreate</h3>
+
+@if (NewKhachHang == null)
+{
+    <BlazorServer.CRUD.Component.LoadingIndicator></BlazorServer.CRUD.Component.LoadingIndicator>
+}
+else
+{
+   @*  <EditForm Model="@NewKhachHang" OnSubmit="CreateKhachHang">
+        <div class="col">
+            <label>Name</label>
+            <InputText class="form-control" @bind-Value="@NewKhachHang.Name"></InputText>
+        </div>
+        <div class="col">
+            <label>NumberPhone</label>
+            <InputText class="form-control" @bind-Value="@NewKhachHang.number"></InputText>
+        </div>
+        <div class="col">
+            <label>Address</label>
+            <InputText class="form-control" @bind-Value="@NewKhachHang.Address"></InputText>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-success">Submit</button>
+        </div>
+    </EditForm> *@
+}
+
+@code {
+    private KhachHangCreate NewKhachHang = new KhachHangCreate();
+    protected override Task OnInitializedAsync()
+    {
+        return base.OnInitializedAsync();
+    }
+    private async Task CreateKhachHang()
+    {
+        //var result = await KhachHangSer.CreateKhachHang(NewKhachHang);
+    }
+}

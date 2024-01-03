@@ -1,0 +1,21 @@
+﻿@using PhongKhamNhaKhoa.Enum;
+
+@switch (Status)
+{
+    case Status.DaThanhToan:
+        <span class="badge badge-success">Đã Thanh Toán</span>
+        break;
+    case Status.ChuaThanhToan:
+        <span class="badge badge-dark">Chưa Thanh Toán</span>
+        break;
+    case Status.ChuaKham:
+        <span class="badge badge-primary">Chưa Khám</span>
+        break;
+    case Status.DaHuy:
+        <span class="badge badge-danger">Đã Hủy</span>
+        break;
+}
+@code {
+    [Parameter]
+    public Status Status { set; get; }
+}

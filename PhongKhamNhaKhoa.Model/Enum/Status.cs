@@ -5,6 +5,6 @@
         ChuaKham,
         DaThanhToan,
         ChuaThanhToan,
-        DaHuy
+        DaHuy,
     }
 }

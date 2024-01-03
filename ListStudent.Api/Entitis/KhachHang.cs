@@ -1,4 +1,6 @@
-﻿using System;
+﻿using PhongKhamNhaKhoa.Enum;
+using PhongKhamNhaKhoa.Model.Enum;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -13,6 +15,7 @@ namespace PhongKhamNhaKhoa.Api.Entitis
         [Required]
         public int? NumberPhone { get; set; }
         public string? AddressKH { get; set; }
+        public StatusKH StatusKH { get; set; }
         public virtual ICollection<PhieuKham>? PhieuKhams { get; set; }
 
 

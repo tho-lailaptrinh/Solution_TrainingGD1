@@ -1,0 +1,14 @@
+﻿@* @using PhongKhamNhaKhoa.Model.ForMemBerRequest;
+
+@switch (PhongKham.Name)
+{
+    case PhongKham.Name:
+        <span class="badge bg-success"></span>
+        break;
+
+   
+}
+@code {
+    [Parameter]
+    public PhongKhamRequest PhongKham { get; set; }
+} *@

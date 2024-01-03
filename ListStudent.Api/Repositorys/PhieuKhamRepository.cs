@@ -9,6 +9,7 @@ using PhongKhamNhaKhoa.Api.Repositorys;
 using PhongKhamNhaKhoa.Model;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.WebSockets;
 using System.Threading.Tasks;
 
@@ -26,7 +27,7 @@ namespace PhongKhamNhaKhoa.Repositorys
         }
         public async Task<IEnumerable<PhieuKhamDto>> GetPhieuKhams()
         {
-            var result =  _context.PhieuKhams.ProjectTo<PhieuKhamDto>(_mapper.ConfigurationProvider);
+            var result =  _context.PhieuKhams.Where(x => x.Status != Enum.Status.DaHuy).ProjectTo<PhieuKhamDto>(_mapper.ConfigurationProvider);
             var tolistResult = await result.ToListAsync();
             return tolistResult;
         }
@@ -46,28 +47,32 @@ namespace PhongKhamNhaKhoa.Repositorys
             await _context.SaveChangesAsync();
             return null;
         }
-        public async Task<PhieuKhamDto> UpdatePK(PhieuKhamDto pk)
+        public async Task<PhieuKhamDto> UpdatePK(Guid id,PhieuKhamUpdateRequest pk)
         {
-            var updatepk = await _context.PhieuKhams.FindAsync(pk.Id);
+            var updatepk = await _context.PhieuKhams.FirstOrDefaultAsync(x => x.Id == id);
             updatepk.Name = pk.Name;
             updatepk.CreateDate = pk.CreateDate;
             updatepk.Status = pk.Status;
+            updatepk.IdDichVu = pk.IdDichVu;
+            updatepk.IdNhanVien = pk.IdNhanVien;
+            updatepk.IdKhachHang = pk.IdKhachHang;
+            updatepk.IdPhongKham = pk.IdPhongKham;
             _context.PhieuKhams.Update(updatepk);
-            await _context.SaveChangesAsync();  
-            return pk;
+            await _context.SaveChangesAsync();
+            return _mapper.Map<PhieuKhamDto>(updatepk);
         }
 
-        public async Task<PhieuKhamDto> DeletePK(PhieuKhamDto pk)
+        public async Task<bool> DeletePK(Guid id)
         {
-            PhieuKham deletePK = _mapper.Map<PhieuKham>(pk);
-            _context.PhieuKhams.Remove(deletePK);
+            var deletePK = await _context.PhieuKhams.FirstOrDefaultAsync(x => x.Id == id);
+            deletePK.Status = Enum.Status.DaHuy; 
+            _context.PhieuKhams.Update(deletePK);
             await _context.SaveChangesAsync();
-            return pk;
+            return true;
         }
 
         public async Task<PhieuKhamDto> GetById(Guid id)
         {
-            
             PhieuKham getId = await _context.PhieuKhams.FindAsync(id);
             return _mapper.Map<PhieuKhamDto>(getId);
         }
