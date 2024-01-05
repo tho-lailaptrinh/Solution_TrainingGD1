@@ -6,6 +6,7 @@ using PhongKhamNhaKhoa.Api.AutoMapper.EntitiDto;
 using PhongKhamNhaKhoa.Api.Data;
 using PhongKhamNhaKhoa.Api.Entitis;
 using PhongKhamNhaKhoa.Api.Repositorys;
+using PhongKhamNhaKhoa.Enum;
 using PhongKhamNhaKhoa.Model;
 using System;
 using System.Collections.Generic;
@@ -32,7 +33,7 @@ namespace PhongKhamNhaKhoa.Repositorys
             return tolistResult;
         }
 
-        public async Task<PhieuKhamDto> CreatePK(PhieuKhamCreateRequest pkcr)
+        public async Task<PhieuKham> CreatePK(PhieuKhamCreateRequest pkcr)
         {
             PhieuKham phieuKham = new PhieuKham()
             {
@@ -47,37 +48,37 @@ namespace PhongKhamNhaKhoa.Repositorys
             };
             _context.PhieuKhams.Add(phieuKham);
             await _context.SaveChangesAsync();
-            return _mapper.Map<PhieuKhamDto>(phieuKham);
+            return phieuKham;
         }
 
-        public async Task<PhieuKhamDto> UpdatePK(Guid id,PhieuKhamUpdateRequest pk)
+        public async Task<PhieuKham> UpdatePK(Guid id,PhieuKhamUpdateRequest pk)
         {
             var updatepk = await _context.PhieuKhams.FirstOrDefaultAsync(x => x.Id == id);
             updatepk.Name = pk.Name;
             updatepk.CreateDate = pk.CreateDate;
-            updatepk.Status = pk.Status;
+            updatepk.Status = Status.ChuaKham;
             updatepk.IdDichVu = pk.IdDichVu;
             updatepk.IdNhanVien = pk.IdNhanVien;
             updatepk.IdKhachHang = pk.IdKhachHang;
             updatepk.IdPhongKham = pk.IdPhongKham;
             _context.PhieuKhams.Update(updatepk);
             await _context.SaveChangesAsync();
-            return _mapper.Map<PhieuKhamDto>(updatepk);
+            return updatepk;
         }
 
-        public async Task<bool> DeletePK(Guid id)
+        public async Task<PhieuKham> DeletePK(Guid id)
         {
             var deletePK = await _context.PhieuKhams.FirstOrDefaultAsync(x => x.Id == id);
             deletePK.Status = Enum.Status.DaHuy; 
             _context.PhieuKhams.Update(deletePK);
             await _context.SaveChangesAsync();
-            return true;
+            return deletePK;
         }
 
-        public async Task<bool> GetById(Guid id)
+        public async Task<PhieuKham> GetById(Guid id)
         {
             var getId = await _context.PhieuKhams.FindAsync(id);
-            return true;
+            return getId;
         }
         // sau đó khai báo bên program cho API
     }

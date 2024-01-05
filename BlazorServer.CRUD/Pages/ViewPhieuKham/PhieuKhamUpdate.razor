@@ -1,0 +1,68 @@
+﻿@page "/updatepk/{IdPK}"
+
+@inject IPhieuKhamService PhieukhamService;
+@inject KhachHangService KhachHangSer;
+@inject NhanVienService NhanVienSer;
+@inject DichVuService DichVuSer;
+@inject PhongKhamService PhongKhamSer;
+@inject NavigationManager NavigationManager;
+
+@using BlazorServer.CRUD.Services;
+@using BlazorServer.CRUD.Services.ForMemBer;
+@using PhongKhamNhaKhoa.Model;
+<h3>UpdatePhieuKham</h3>
+
+@if (UpdatePhieuKham == null || lstDichVu == null || lstKhachHang == null || lstNhanVien == null || lstPhongKham == null)
+{
+    <BlazorServer.CRUD.Component.LoadingIndicator></BlazorServer.CRUD.Component.LoadingIndicator>
+}
+else
+{
+    <EditForm Model="@UpdatePhieuKham" OnSubmit="SubmitForm">
+        <div class="col">
+            <label>Name</label>
+            <InputText class="form-control" @bind-Value="@UpdatePhieuKham.Name">
+               
+            </InputText>
+        </div>
+        <div class="col">
+            <label>Khách Hàng</label>
+            <InputSelect class="form-control" @bind-Value="@UpdatePhieuKham.IdKhachHang">
+                @foreach (var item in lstKhachHang)
+                {
+                    <option value="@item.Id">@item.Name</option>
+                }
+            </InputSelect>
+        </div>
+        <div class="col">
+            <label>Nhân Viên</label>
+            <InputSelect class="form-control" @bind-Value="@UpdatePhieuKham.IdNhanVien">
+                @foreach (var item in lstNhanVien)
+                {
+                <option value="@item.Id">@item.Name</option>
+                }
+            </InputSelect>
+        </div>
+        <div class="col">
+            <label>Dịch Vụ</label>
+            <InputSelect class="form-control" @bind-Value="@UpdatePhieuKham.IdDichVu">
+                @foreach (var item in lstDichVu)
+                {
+                    <option value="@item.Id">@item.Name</option>
+                }
+            </InputSelect>
+        </div>
+        <div class="col">
+            <label>Phòng Khám</label>
+            <InputSelect class="form-control" @bind-Value="@UpdatePhieuKham.IdPhongKham">
+                @foreach (var item in lstPhongKham)
+                {
+                    <option value="@item.Id">@item.Name</option>
+                }
+            </InputSelect>
+        </div>
+        <div class="col">
+            <button type="submit" class="btn btn-success">Submit</button>
+        </div>
+    </EditForm>
+}

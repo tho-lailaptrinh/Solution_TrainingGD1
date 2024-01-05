@@ -26,9 +26,9 @@ namespace BlazorServer.CRUD.Pages.ViewPhieuKham
         {
             NavigationManager.NavigateTo("/phieukhamcreate");
         }
-        void UpdatePhieuKham()
+         public void UpdatePhieuKham(Guid id)
         {
-            NavigationManager.NavigateTo("/updatepk");
+            NavigationManager.NavigateTo($"/updatepk/{id}");
         }
     }
 

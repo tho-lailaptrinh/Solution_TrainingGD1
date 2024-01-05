@@ -3,9 +3,11 @@
 @inject KhachHangService KhachHangSer;
 @inject IToastService  ToastService;
 @inject NavigationManager NavigationManager;
+
 @using BlazorServer.CRUD.Services.ForMemBer;
 @using Blazored.Toast.Services;
 @using PhongKhamNhaKhoa.Model.ForMemBerRequest.KhachHang;
+
 <h3>KhachHangCreate</h3>
 
 @if (NewKhachHang == null)
@@ -27,7 +29,7 @@ else
             <label>Address</label>
             <InputText class="form-control" @bind-Value="@NewKhachHang.AddressKH"></InputText>
         </div> 
-        <div>
+        <div class="col m-2">
             <button type="submit" class="btn btn-success">Submit</button>
         </div>
     </EditForm>

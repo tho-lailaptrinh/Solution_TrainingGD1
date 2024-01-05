@@ -1,4 +1,5 @@
 ﻿@page "/showkhachhang"
+@using BlazorServer.CRUD.Component;
 @using BlazorServer.CRUD.Services.ForMemBer;
 @using PhongKhamNhaKhoa.Model.ForMemBerRequest.KhachHang;
 
@@ -28,37 +29,60 @@ else
                         <td>@item.NumberPhone</td>
                         <td>@item.AddressKH</td>
                             <button class ="btn btn-primary">
-                            <a class="oi oi-pencil" href="/khachhangupdate/@item.Id"></a>
+                            <a class="oi oi-pencil bg-white" href="/khachhangupdate/@item.Id"></a>
                             </button>
-                        <button class="btn btn-danger">
+                        <button class="btn btn-danger" @onclick="()=>OnDeleteKH(item.Id)">
                             <i class="oi oi-trash"></i>
                         </button>
                     </tr>
                 }
             </tbody>
         </table>
+        <div class="row m-3">
+            <button class="btn btn-primary" @onclick="OnClickCreateKH">Create New</button>
+        </div>
     </div>
-    <div class="row">
-        <button class="btn btn-primary" @onclick="ClickCreateKH" >Create New</button>
-    </div>
+    
+    <Confirmation ConfirmationMessage= "@($"Bạn có muốn xóa không?")" ConfirmationTitle="Xóa Khách Hàng"
+                    @ref="DeleteConfirmation" ConfirmationChanged="OnConfirmDeleteKH"> </Confirmation>
 }
 
 
 @code {
     [Inject] private KhachHangService KhachHangService { get; set; }
+    [Inject] private IToastService ToastService { get; set; }
+
     private KhachHangRequest requestKH = new KhachHangRequest();
     private List<KhachHangRequest> lstKhachHang = new List<KhachHangRequest>();
+
+    //Comfirmation
+    protected Confirmation DeleteConfirmation { get; set; }
+    private Guid DeleteId { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
         lstKhachHang = await KhachHangService.GetAllKhachHang();
     }
 
-    public void ClickCreateKH()
+    public void OnClickCreateKH()
     {
         NavigationManager.NavigateTo("/khachhangcreate");
     }
-    public void ClickUpdateKH()
+
+
+    public async Task OnDeleteKH(Guid deleteId)
     {
-        NavigationManager.NavigateTo("/khachhangupdate/{id}");
+        DeleteId = deleteId;
+        DeleteConfirmation.Show();
+    }
+
+    public async Task OnConfirmDeleteKH(bool deleteConfirmation)
+    {
+        if (deleteConfirmation == true)
+        {
+            await KhachHangService.DeleteKhachHang(DeleteId);
+            //ToastService.ShowSuccess("Delete success");
+            NavigationManager.NavigateTo(NavigationManager.Uri, forceLoad: true);
+        }
     }
 }

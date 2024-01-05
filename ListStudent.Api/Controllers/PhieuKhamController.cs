@@ -42,7 +42,7 @@ namespace PhongKhamNhaKhoa.Api.Controllers
             return Ok(result);
         }
 
-        [HttpPut]
+        [HttpPut("{id}")]
         public async Task<IActionResult> Updatepk(Guid id,PhieuKhamUpdateRequest request)
         {
             var tasks = await _phieuKhamrepo.UpdatePK(id , request);
@@ -54,7 +54,7 @@ namespace PhongKhamNhaKhoa.Api.Controllers
             var tasks = await _phieuKhamrepo.DeletePK(id);
             return Ok(tasks);
         }
-        [HttpGet("GetById")]
+        [HttpGet("GetById/{id}")]
         public async Task<IActionResult> GetByIdPK(Guid id)
         {
             var result = await _phieuKhamrepo.GetById(id);

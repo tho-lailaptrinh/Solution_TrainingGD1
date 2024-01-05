@@ -23,7 +23,7 @@ else
                     <InputText class="form-control" @bind-Value="@NewPhieuKham.Name"></InputText>
                 </div>
                 <div class="col">
-                    <label>Khách Hàng</label>
+                    <label>Khách Hàng</label>   
                     <InputSelect class="form-control" @bind-Value="@NewPhieuKham.IdKhachHang">
                         @foreach (var item in lstKhachHang)
                         {
@@ -55,15 +55,6 @@ else
                         @foreach (var item in lstPhongKham)
                         {
                             <option value="@item.Id">@item.Name</option>
-                        }
-                    </InputSelect>
-                </div>
-                <div class="col">
-                    <label>Trạng Thái</label>
-                    <InputSelect class="form-control" @bind-Value="@NewPhieuKham.Status">
-                        @foreach (string item in Enum.GetNames(typeof(Status)))
-                        {
-                            <option value="@item">@item</option>
                         }
                     </InputSelect>
                 </div>

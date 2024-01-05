@@ -10,10 +10,10 @@ namespace PhongKhamNhaKhoa.Api.Repositorys
     public interface IPhieuKhamRepository
     {
          Task<IEnumerable<PhieuKhamDto>> GetPhieuKhams();
-         Task<PhieuKhamDto> CreatePK(PhieuKhamCreateRequest pk);
-         Task<PhieuKhamDto> UpdatePK(Guid id,PhieuKhamUpdateRequest pk);
-         Task<bool> DeletePK(Guid id);
-         Task<bool> GetById(Guid id);
+         Task<PhieuKham> CreatePK(PhieuKhamCreateRequest pk);
+         Task<PhieuKham> UpdatePK(Guid id,PhieuKhamUpdateRequest pk);
+         Task<PhieuKham> DeletePK(Guid id);
+         Task<PhieuKham> GetById(Guid id);
         
     }
 }

@@ -14,4 +14,10 @@
     <ProjectReference Include="..\PhongKhamNhaKhoa.Model\PhongKhamNhaKhoa.Model.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Pages\DichVu\" />
+    <Folder Include="Pages\PhongKham\" />
+    <Folder Include="Pages\NhanVien\" />
+  </ItemGroup>
+
 </Project>

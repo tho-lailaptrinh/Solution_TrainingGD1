@@ -1,6 +1,7 @@
 ﻿@page "/khachhangupdate/{IdUp}";
 @using BlazorServer.CRUD.Services.ForMemBer;
 @using PhongKhamNhaKhoa.Model.ForMemBerRequest.KhachHang;
+
 @inject KhachHangService KhachHangSer;
 @inject NavigationManager NavigationManager;
 @inject IToastService ToastService;
@@ -31,7 +32,7 @@ else
               
             </InputText>
         </div>
-        <div class="col">
+        <div class="col m-2">
             <button class="btn btn-success" type="submit">Submit</button>
         </div>
     </EditForm>
@@ -50,7 +51,7 @@ else
         NewKhachHang.Name = newkh.Name;
         NewKhachHang.NumberPhone = newkh.NumberPhone;
         NewKhachHang.AddressKH = newkh.AddressKH;
-        LstKhachHang = await KhachHangSer.GetAllKhachHang();    
+        LstKhachHang = await KhachHangSer.GetAllKhachHang();
     }
     public async Task UpdateKhachHang()
     {

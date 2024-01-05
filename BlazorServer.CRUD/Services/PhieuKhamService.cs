@@ -1,4 +1,5 @@
 ﻿using PhongKhamNhaKhoa.Model;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -25,10 +26,22 @@ namespace BlazorServer.CRUD.Services
             return result.IsSuccessStatusCode;
         }
 
-        public async Task<PhieuKhamRequeset> GetListPKCT(string id)
+        public async Task<PhieuKhamRequeset> GetByIdPhieuKham(string id)
         {
-            var result = await _httpClient.GetFromJsonAsync<PhieuKhamRequeset>($"api/phieukham/{id}");
+            var result = await _httpClient.GetFromJsonAsync<PhieuKhamRequeset>($"api/PhieuKham/GetById/{id}");
             return result;
+        }
+
+        public async Task<bool> UpdatePhieuKhams(Guid id, PhieuKhamUpdateRequest UpdatePK)
+        {
+            var result = await _httpClient.PutAsJsonAsync($"/api/phieukham/{id}", UpdatePK);
+            return result.IsSuccessStatusCode;
+        }
+
+        public async Task<bool> DeletePhieuKhams(Guid id)
+        {
+            var result = await _httpClient.DeleteAsync($"/api/phieukham/{id}");
+            return result.IsSuccessStatusCode;
         }
     }
 }
