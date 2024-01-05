@@ -1,6 +1,11 @@
 ﻿@page "/khachhangcreate";
+
 @inject KhachHangService KhachHangSer;
+@inject IToastService  ToastService;
+@inject NavigationManager NavigationManager;
 @using BlazorServer.CRUD.Services.ForMemBer;
+@using Blazored.Toast.Services;
+@using PhongKhamNhaKhoa.Model.ForMemBerRequest.KhachHang;
 <h3>KhachHangCreate</h3>
 
 @if (NewKhachHang == null)
@@ -9,33 +14,39 @@
 }
 else
 {
-   @*  <EditForm Model="@NewKhachHang" OnSubmit="CreateKhachHang">
-        <div class="col">
+  <EditForm Model="@NewKhachHang" OnSubmit="CreateKhachHang">
+         <div class="col">
             <label>Name</label>
             <InputText class="form-control" @bind-Value="@NewKhachHang.Name"></InputText>
         </div>
         <div class="col">
-            <label>NumberPhone</label>
-            <InputText class="form-control" @bind-Value="@NewKhachHang.number"></InputText>
+            <label>Name</label>
+            <InputNumber class="form-control" @bind-Value="@NewKhachHang.NumberPhone"></InputNumber>
         </div>
         <div class="col">
             <label>Address</label>
-            <InputText class="form-control" @bind-Value="@NewKhachHang.Address"></InputText>
-        </div>
+            <InputText class="form-control" @bind-Value="@NewKhachHang.AddressKH"></InputText>
+        </div> 
         <div>
             <button type="submit" class="btn btn-success">Submit</button>
         </div>
-    </EditForm> *@
+    </EditForm>
 }
 
 @code {
-    private KhachHangCreate NewKhachHang = new KhachHangCreate();
-    protected override Task OnInitializedAsync()
-    {
-        return base.OnInitializedAsync();
-    }
+    private KhachHangCreateRequest NewKhachHang = new KhachHangCreateRequest();
+  
     private async Task CreateKhachHang()
     {
-        //var result = await KhachHangSer.CreateKhachHang(NewKhachHang);
+        var result = await KhachHangSer.CreateKhachHang(NewKhachHang);
+        if (result == true)
+        {
+            ToastService.ShowSuccess($"{NewKhachHang.Name} has been created successfully.", "Success");
+            NavigationManager.NavigateTo("/showkhachhang");
+        }
+        else
+        {
+            ToastService.ShowError($"An error occurred in progress. Please contact to administrator.", "Error");
+        }
     }
 }

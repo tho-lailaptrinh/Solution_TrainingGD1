@@ -30,25 +30,36 @@ namespace PhongKhamNhaKhoa.Api.Repositorys
             return results;
         }
 
-        public async Task<KhachHangDto> CreateKhachHang(KhachHangRequest request)
+        public  async Task<KhachHang> GetById(Guid id)
+        {
+            var result = await _context.KhachHangs.FindAsync(id);
+            return result;
+        }
+
+        public async Task<KhachHang> CreateKhachHang(KhachHangCreateRequest request)
         {
             KhachHang khachhang = new KhachHang()
             {
                 Name = request.Name,
                 AddressKH = request.AddressKH,
                 NumberPhone = request.NumberPhone,
-                Id = Guid.NewGuid(),
+                StatusKH = StatusKH.DangHoatDong,
+                Id = Guid.NewGuid()
             };
             _context.KhachHangs.Add(khachhang);
             await _context.SaveChangesAsync();
-            return _mapper.Map<KhachHangDto>(khachhang);
+            return khachhang;
         }
 
-        public async Task<KhachHang> UpdateKhachHang(KhachHang request)
+        public async Task<KhachHang> UpdateKhachHang(Guid id,KhachHangUpdateRequest request)
         {
-            _context.KhachHangs.Update(request);
+            var khachhang = await _context.KhachHangs.FirstOrDefaultAsync(x => x.Id == id);
+            khachhang.Name = request.Name;
+            khachhang.NumberPhone = request.NumberPhone;
+            khachhang.AddressKH = request.AddressKH;
+            _context.KhachHangs.Update(khachhang);
             await _context.SaveChangesAsync();
-            return request;
+            return khachhang;
         }
 
         public async Task<KhachHang> DeleteKhachHang(KhachHang request)
@@ -59,9 +70,5 @@ namespace PhongKhamNhaKhoa.Api.Repositorys
             return request;
         }
 
-        public async Task<KhachHang> GetById(Guid id)
-        {
-            return await _context.KhachHangs.FindAsync(id);
-        } 
     }
 }

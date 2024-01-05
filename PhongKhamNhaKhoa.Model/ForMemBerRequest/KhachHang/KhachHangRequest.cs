@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PhongKhamNhaKhoa.Model.Enum;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,5 +13,6 @@ namespace PhongKhamNhaKhoa.Model.ForMemBerRequest.KhachHang
         public string Name { get; set; }
         public int NumberPhone { get; set; }
         public string AddressKH { get; set; }
+        public StatusKH StatusKH { get; set; }
     }
 }

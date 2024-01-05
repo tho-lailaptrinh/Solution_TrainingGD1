@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System;
+using PhongKhamNhaKhoa.Model.Enum;
 
 namespace PhongKhamNhaKhoa.Api.AutoMapper.EntitiDto
 {
@@ -10,6 +11,7 @@ namespace PhongKhamNhaKhoa.Api.AutoMapper.EntitiDto
         public string Name { get; set; }
         public int NumberPhone { get; set; }
         public string AddressKH { get; set; }
+        public StatusKH StatusKH { get; set; }
         //public virtual ICollection<PhieuKhamDto> PhieuKhams { get; set; }
 
     }

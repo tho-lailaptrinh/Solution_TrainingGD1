@@ -48,3 +48,9 @@ a, .btn-link {
         right: 0.75rem;
         top: 0.5rem;
     }
+
+.custom-toast {
+    background-color: #dff0d8;
+    color: #3c763d;
+    border-color: #d6e9c6;
+}

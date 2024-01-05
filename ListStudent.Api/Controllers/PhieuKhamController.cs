@@ -54,5 +54,11 @@ namespace PhongKhamNhaKhoa.Api.Controllers
             var tasks = await _phieuKhamrepo.DeletePK(id);
             return Ok(tasks);
         }
+        [HttpGet("GetById")]
+        public async Task<IActionResult> GetByIdPK(Guid id)
+        {
+            var result = await _phieuKhamrepo.GetById(id);
+            return Ok(result);
+        }
     }
 }

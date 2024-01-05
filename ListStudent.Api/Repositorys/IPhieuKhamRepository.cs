@@ -13,7 +13,7 @@ namespace PhongKhamNhaKhoa.Api.Repositorys
          Task<PhieuKhamDto> CreatePK(PhieuKhamCreateRequest pk);
          Task<PhieuKhamDto> UpdatePK(Guid id,PhieuKhamUpdateRequest pk);
          Task<bool> DeletePK(Guid id);
-         Task<PhieuKhamDto> GetById(Guid id);
+         Task<bool> GetById(Guid id);
         
     }
 }

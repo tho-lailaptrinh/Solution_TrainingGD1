@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PhongKhamNhaKhoa.Model.ForMemBerRequest.KhachHang
 {
-    public class KhachHangUpdate
+    public class KhachHangCreateRequest
     {
         public Guid Id { get; set; }
         public string Name { get; set; }

@@ -41,12 +41,12 @@ namespace BlazorServer.CRUD.Pages.ViewPhieuKham
             var result = await PhieuKhamService.CreatePhieuKham(NewPhieuKham);
             if (result == true)
             {
-                ToastService.ShowSuccess("has been created successfully");
+                ToastService.ShowSuccess($"{NewPhieuKham.Name} has been created successfully.", "Success");
                 NavigationManager.NavigateTo("/phieukham");
             }
             else
             {
-                ToastService.ShowError($"An error occurred in progress. Please contact to administrator");
+                ToastService.ShowError($"An error occurred in progress. Please contact to administrator.", "Error");
             }
         }
     }

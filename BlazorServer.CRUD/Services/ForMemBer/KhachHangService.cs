@@ -19,14 +19,21 @@ namespace BlazorServer.CRUD.Services.ForMemBer
             var result = _httpClient.GetFromJsonAsync<List<KhachHangRequest>>("/api/khachhang");
             return result;
         }
-        public async Task<bool> CreateKhachHang(KhachHangCreate request)
+            
+        public async Task<KhachHangRequest> GetByIdKhachHang(string id)
+        {
+            var result = await _httpClient.GetFromJsonAsync<KhachHangRequest>($"/api/KhachHang/GetById/{id}");
+            return result;
+        }
+
+        public async Task<bool> CreateKhachHang(KhachHangCreateRequest request)
         {
             var result = await _httpClient.PostAsJsonAsync("/api/khachhang", request);
             return result.IsSuccessStatusCode;
         }
-        public async Task<bool> UpdateKhachHang(KhachHangCreate request)
+        public async Task<bool> UpdateKhachHang(Guid id, KhachHangUpdateRequest request)
         {
-            var result = await _httpClient.PutAsJsonAsync("/api/khachhang", request);
+            var result = await _httpClient.PutAsJsonAsync($"/api/khachhang/{id}", request);
             return result.IsSuccessStatusCode;
         }
         public async Task<bool> DeleteKhachHang(Guid id)

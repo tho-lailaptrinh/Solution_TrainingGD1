@@ -36,17 +36,20 @@ namespace PhongKhamNhaKhoa.Repositorys
         {
             PhieuKham phieuKham = new PhieuKham()
             {
-                Id = Guid.NewGuid(),
+                Name = pkcr.Name,
                 CreateDate = DateTime.Now,
                 IdKhachHang = pkcr.IdKhachHang,
                 IdDichVu = pkcr.IdDichVu,
                 IdPhongKham = pkcr.IdPhongKham,
-                Name = pkcr.Name,
+                IdNhanVien = pkcr.IdNhanVien,
+                Id = Guid.NewGuid(),
+
             };
             _context.PhieuKhams.Add(phieuKham);
             await _context.SaveChangesAsync();
-            return null;
+            return _mapper.Map<PhieuKhamDto>(phieuKham);
         }
+
         public async Task<PhieuKhamDto> UpdatePK(Guid id,PhieuKhamUpdateRequest pk)
         {
             var updatepk = await _context.PhieuKhams.FirstOrDefaultAsync(x => x.Id == id);
@@ -71,10 +74,10 @@ namespace PhongKhamNhaKhoa.Repositorys
             return true;
         }
 
-        public async Task<PhieuKhamDto> GetById(Guid id)
+        public async Task<bool> GetById(Guid id)
         {
-            PhieuKham getId = await _context.PhieuKhams.FindAsync(id);
-            return _mapper.Map<PhieuKhamDto>(getId);
+            var getId = await _context.PhieuKhams.FindAsync(id);
+            return true;
         }
         // sau đó khai báo bên program cho API
     }

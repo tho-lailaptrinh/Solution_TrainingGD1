@@ -28,8 +28,22 @@ namespace PhongKhamNhaKhoa.Api.Controllers
             return Ok(khachhang);
         }
 
+        [HttpGet("GetById/{id}")]
+        public async Task<IActionResult> GetByIdKH(Guid id)
+        {
+            var khachhang = await _khachHangRepository.GetById(id);
+            return Ok(new KhachHangRequest()
+            {
+                Name = khachhang.Name,
+                NumberPhone = Convert.ToInt32(khachhang.NumberPhone),
+                AddressKH = khachhang.AddressKH,
+                StatusKH = khachhang.StatusKH,
+                Id = khachhang.Id
+            });
+        }
+
         [HttpPost]
-        public async Task<IActionResult> CreateKH(KhachHangRequest request)
+        public async Task<IActionResult> CreateKH(KhachHangCreateRequest request)
         {
             var result = await _khachHangRepository.CreateKhachHang(request);
             return Ok(result);
@@ -37,19 +51,11 @@ namespace PhongKhamNhaKhoa.Api.Controllers
 
         [HttpPut]
         [Route("{id}")]
-        public async Task<IActionResult> UpdateKH(Guid id, KhachHangUpdate request)
+        public async Task<IActionResult> UpdateKH(Guid id, KhachHangUpdateRequest request) 
         {
-            var getkhachhang = await _khachHangRepository.GetById(id);
+            var result = await _khachHangRepository.UpdateKhachHang(id, request);
+            return Ok(result);
 
-            getkhachhang.Name = request.Name;
-            getkhachhang.NumberPhone = request.NumberPhone;
-            getkhachhang.AddressKH = request.AddressKH;
-
-            var updatedKhachHang = await _khachHangRepository.UpdateKhachHang(getkhachhang);
-            //var khachHangDto = _mapper.Map<KhachHangDto>(updatedKhachHang);
-            //return Ok(khachHangDto);
-            return Ok(updatedKhachHang);
-            //return null;
         }
 
         [HttpDelete]
@@ -58,15 +64,9 @@ namespace PhongKhamNhaKhoa.Api.Controllers
         {
             var khachhang = await _khachHangRepository.GetById(id);
             await _khachHangRepository.DeleteKhachHang(khachhang);
-            var khachHangDto = _mapper.Map<KhachHangDto>(khachhang);
-            return Ok(khachHangDto);
+            return Ok(khachhang);
         }
 
-        //[HttpGet]
-        //public async Task<IActionResult> GetById(Guid id)
-        //{
-        //    var khachhang = await _khachHangRepository.GetById(id);
-        //    return Ok(khachhang);
-        //}
+      
     }
 }

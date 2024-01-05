@@ -6,6 +6,8 @@ using PhongKhamNhaKhoa.Model.ForMemBerRequest;
 using PhongKhamNhaKhoa.Model;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Blazored.Toast.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BlazorServer.CRUD.Pages.ViewPhieuKham
 {
@@ -41,8 +43,18 @@ namespace BlazorServer.CRUD.Pages.ViewPhieuKham
             phieukham = await PhieuKhamService.GetListPKCT(IdPK);
         }
 
-        private Task SubmitForm()
+        private  Task SubmitForm()
         {
+            //var result = await PhieuKhamService.
+            //if (result == true)
+            //{
+            //    ToastService.ShowSuccess($"{NewPhieuKham.Name} has been created successfully.", "Success");
+            //    NavigationManager.NavigateTo("/phieukham");
+            //}
+            //else
+            //{
+            //    ToastService.ShowError($"An error occurred in progress. Please contact to administrator.", "Error");
+            //}
             return null;
         }
         [Parameter]

@@ -1,0 +1,68 @@
+﻿@page "/khachhangupdate/{IdUp}";
+@using BlazorServer.CRUD.Services.ForMemBer;
+@using PhongKhamNhaKhoa.Model.ForMemBerRequest.KhachHang;
+@inject KhachHangService KhachHangSer;
+@inject NavigationManager NavigationManager;
+@inject IToastService ToastService;
+
+<h1> @IdUp </h1>
+@if (NewKhachHang == null || LstKhachHang == null)
+{
+    <BlazorServer.CRUD.Component.LoadingIndicator></BlazorServer.CRUD.Component.LoadingIndicator>
+}
+else
+{
+    <EditForm Model="NewKhachHang" OnSubmit="UpdateKhachHang" >
+        <div class="col">
+            <label>Name</label>
+            <InputText class="form-control" @bind-Value="@NewKhachHang.Name">
+               
+            </InputText>
+        </div>
+        <div class="col">
+            <label>NumberPhone</label>
+            <InputNumber class="form-control" @bind-Value="@NewKhachHang.NumberPhone">
+              
+            </InputNumber>
+        </div>
+        <div class="col">
+            <label>Address</label>
+            <InputText class="form-control" @bind-Value="@NewKhachHang.AddressKH">
+              
+            </InputText>
+        </div>
+        <div class="col">
+            <button class="btn btn-success" type="submit">Submit</button>
+        </div>
+    </EditForm>
+}
+@code {
+    [Parameter]
+    public string IdUp { get; set; }
+    public KhachHangUpdateRequest NewKhachHang = new KhachHangUpdateRequest();
+    public List<KhachHangRequest> LstKhachHang;
+
+
+    public KhachHangRequest Request { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        var newkh = await KhachHangSer.GetByIdKhachHang(IdUp);
+        NewKhachHang.Name = newkh.Name;
+        NewKhachHang.NumberPhone = newkh.NumberPhone;
+        NewKhachHang.AddressKH = newkh.AddressKH;
+        LstKhachHang = await KhachHangSer.GetAllKhachHang();    
+    }
+    public async Task UpdateKhachHang()
+    {
+        var result = await KhachHangSer.UpdateKhachHang(Guid.Parse(IdUp), NewKhachHang);
+        if(result == true)
+        {
+            ToastService.ShowSuccess($"{NewKhachHang.Name} has been created successfully.", "Success");
+            NavigationManager.NavigateTo("/showkhachhang");
+        }
+        else
+        {
+            ToastService.ShowError($"An error occurred in progress. Please contact to administrator.", "Error");
+        }
+    }
+}

@@ -17,7 +17,5 @@ namespace PhongKhamNhaKhoa.Api.Entitis
         public string? AddressKH { get; set; }
         public StatusKH StatusKH { get; set; }
         public virtual ICollection<PhieuKham>? PhieuKhams { get; set; }
-
-
     }
 }
