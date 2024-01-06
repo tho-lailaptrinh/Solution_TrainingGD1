@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using PhongKhamNhaKhoa.Model.ForMemBerRequest;
 using PhongKhamNhaKhoa.Model.ForMemBerRequest.KhachHang;
+using BlazorServer.CRUD.Component.Confir;
 namespace BlazorServer.CRUD.Pages.ViewPhieuKham
 {
     public partial class PhieuKhamUpdate
@@ -17,6 +18,9 @@ namespace BlazorServer.CRUD.Pages.ViewPhieuKham
         private List<NhanVienRequest> lstNhanVien;
         private List<DichVuRequest> lstDichVu;
         private List<PhongKhamRequest> lstPhongKham;
+
+        //Confirmation
+        protected ConfirmationSuccess UpdateConfirmation { get; set; }
 
         protected async override Task OnInitializedAsync()
         {
@@ -31,11 +35,22 @@ namespace BlazorServer.CRUD.Pages.ViewPhieuKham
         }
         public async Task SubmitForm()
         {
-            var result = await PhieukhamService.UpdatePhieuKhams(Guid.Parse(IdPK), UpdatePhieuKham);
-            if (result == true)
+            UpdateConfirmation.Show();
+        }
+        public async Task OnSubmitForm(bool createphieukham)
+        {
+            if (createphieukham == true)
             {
+                await PhieukhamService.UpdatePhieuKhams(Guid.Parse(IdPK), UpdatePhieuKham);
                 NavigationManager.NavigateTo("/phieukham");
+                ToastService.ShowSuccess($"Đã sửa thành công rồi nhé em!", "Success");
             }
+            else
+            {
+                ToastService.ShowError($"Có lỗi rồi thằng ngu. Xem lại đi!!", "Error");
+            }
+
+
         }
     }
 }

@@ -48,7 +48,7 @@ namespace PhongKhamNhaKhoa.Api.Controllers
             var tasks = await _phieuKhamrepo.UpdatePK(id , request);
             return Ok(tasks);
         }
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePK(Guid id)
         {
             var tasks = await _phieuKhamrepo.DeletePK(id);

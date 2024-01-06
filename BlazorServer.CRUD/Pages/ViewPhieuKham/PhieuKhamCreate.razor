@@ -9,15 +9,16 @@
 @using PhongKhamNhaKhoa.Enum;
 @using PhongKhamNhaKhoa.Model;
 @using PhongKhamNhaKhoa.Model.ForMemBerRequest; 
+@using BlazorServer.CRUD.Component.Confir;
 
-<h3>PhieuKhamCreate</h3>
+<h3>Thêm Phiếu Khám</h3>
 @if (NewPhieuKham == null || lstDichVu == null || lstKhachHang == null || lstNhanVien == null|| lstPhongKham == null)
 {
     <BlazorServer.CRUD.Component.LoadingIndicator></BlazorServer.CRUD.Component.LoadingIndicator>
 }
 else
 {
-        <EditForm Model="@NewPhieuKham" OnSubmit="SubmitForm">
+        <EditForm Model="@NewPhieuKham" OnSubmit="@(async () => await SubmitForm())">
                 <div class="col">
                     <label>Name</label>
                     <InputText class="form-control" @bind-Value="@NewPhieuKham.Name"></InputText>
@@ -63,4 +64,6 @@ else
                 </div>
             
         </EditForm>
+         <ConfirmationSuccess ConfirmationMessage="@($"Bạn có muốn Thêm không?")" ConfirmationTitle="Thêm Phiếu Khám"
+                  @ref="CreateConfirmation" ConfirmationChanged="OnSubmitForm"> </ConfirmationSuccess>
 }

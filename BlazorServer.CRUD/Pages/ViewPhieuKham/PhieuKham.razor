@@ -1,8 +1,10 @@
 ﻿@page "/phieukham"
 @inject NavigationManager NavigationManager
+@inject IToastService ToastService;
+
 @using BlazorServer.CRUD.Component
 
-<h3>PhieuKham</h3>
+<h3>Phiếu khám</h3>
 @if (ListPhieuKham == null)
 {
     <LoadingIndicator></LoadingIndicator> 
@@ -42,7 +44,7 @@ else
                             </button>
                         </td>
                            <td>
-                            <button class="btn btn-danger">
+                            <button class="btn btn-danger" @onclick="()=> OnDeletePhieuKham(item.Id)" >
                                 <i class="oi oi-trash"></i>
                             </button>
                         </td>
@@ -55,7 +57,8 @@ else
             <button class="btn btn-primary" @onclick="CreateNewPhieuKham">Create New</button>
         </div>
     </div>
+    <Confirmation ConfirmationMessage="@($"Bạn có muốn xóa không?")" ConfirmationTitle="Xóa Khách Hàng"
+                  @ref="DeleteConfirmation" ConfirmationChanged="OnConfirmDeleteKH"> </Confirmation>
    
-   
-}
+}   
 

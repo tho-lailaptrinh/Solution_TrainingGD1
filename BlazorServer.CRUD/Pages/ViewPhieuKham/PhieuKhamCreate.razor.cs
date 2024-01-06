@@ -1,4 +1,6 @@
 ﻿
+using BlazorServer.CRUD.Component;
+using BlazorServer.CRUD.Component.Confir;
 using BlazorServer.CRUD.Services;
 using BlazorServer.CRUD.Services.ForMemBer;
 using Microsoft.AspNetCore.Components;
@@ -17,6 +19,10 @@ namespace BlazorServer.CRUD.Pages.ViewPhieuKham
         [Inject] private NhanVienService NhanVienSer { get; set; }
         [Inject] private DichVuService DichVuSer { get; set; }
         [Inject] private PhongKhamService PhongKhamSer { get; set; }
+
+        //Confirmation
+        protected ConfirmationSuccess CreateConfirmation { get; set; }
+
         // khai báo và khởi tạo giá trị form
         private PhieuKhamCreateRequest NewPhieuKham = new PhieuKhamCreateRequest();
         private List<KhachHangRequest> lstKhachHang;
@@ -35,19 +41,32 @@ namespace BlazorServer.CRUD.Pages.ViewPhieuKham
             lstPhongKham = await PhongKhamSer.GetAllPhongKham();
         }
 
-
         public async Task SubmitForm()
         {
-            var result = await PhieuKhamService.CreatePhieuKham(NewPhieuKham);
-            if (result == true)
+            CreateConfirmation.Show();
+        }
+        public async Task OnSubmitForm(bool createphieukham)
+        {
+            if(createphieukham == true)
             {
-                ToastService.ShowSuccess($"{NewPhieuKham.Name} has been created successfully.", "Success");
+                await PhieuKhamService.CreatePhieuKham(NewPhieuKham);
                 NavigationManager.NavigateTo("/phieukham");
+                ToastService.ShowSuccess($"Đã thêm thành công rồi nhé em!", "Success");
             }
             else
             {
-                ToastService.ShowError($"An error occurred in progress. Please contact to administrator.", "Error");
+                ToastService.ShowError($"Có lỗi rồi thằng ngu. Xem lại đi!!", "Error");
             }
+            //var result = await PhieuKhamService.CreatePhieuKham(NewPhieuKham);
+            //if (result == true)
+            //{
+            //    ToastService.ShowSuccess($"{NewPhieuKham.Name} đã được thêm thành công rồi nhé em!.", "Success");
+            //    NavigationManager.NavigateTo("/phieukham");
+            //}
+            //else
+            //{
+            //    ToastService.ShowError($"Có lỗi rồi thằng ngu. Xem lại đi!!", "Error");
+            //}
         }
     }
 }

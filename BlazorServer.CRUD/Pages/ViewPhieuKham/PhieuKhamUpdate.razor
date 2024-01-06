@@ -1,5 +1,6 @@
 ﻿@page "/updatepk/{IdPK}"
 
+@inject IToastService ToastService;
 @inject IPhieuKhamService PhieukhamService;
 @inject KhachHangService KhachHangSer;
 @inject NhanVienService NhanVienSer;
@@ -10,7 +11,9 @@
 @using BlazorServer.CRUD.Services;
 @using BlazorServer.CRUD.Services.ForMemBer;
 @using PhongKhamNhaKhoa.Model;
-<h3>UpdatePhieuKham</h3>
+@using BlazorServer.CRUD.Component.Confir;
+
+<h3>Edit Phiếu Khám</h3>
 
 @if (UpdatePhieuKham == null || lstDichVu == null || lstKhachHang == null || lstNhanVien == null || lstPhongKham == null)
 {
@@ -18,7 +21,7 @@
 }
 else
 {
-    <EditForm Model="@UpdatePhieuKham" OnSubmit="SubmitForm">
+    <EditForm Model="@UpdatePhieuKham" OnSubmit="@(async ()=> await SubmitForm())">
         <div class="col">
             <label>Name</label>
             <InputText class="form-control" @bind-Value="@UpdatePhieuKham.Name">
@@ -41,7 +44,7 @@ else
                 {
                 <option value="@item.Id">@item.Name</option>
                 }
-            </InputSelect>
+            </InputSelect>  
         </div>
         <div class="col">
             <label>Dịch Vụ</label>
@@ -65,4 +68,6 @@ else
             <button type="submit" class="btn btn-success">Submit</button>
         </div>
     </EditForm>
+    <ConfirmationSuccess ConfirmationMessage="@($"Bạn có muốn sửa không?")" ConfirmationTitle="Sửa Khách Hàng"
+                         @ref="UpdateConfirmation" ConfirmationChanged="OnSubmitForm"> </ConfirmationSuccess>
 }

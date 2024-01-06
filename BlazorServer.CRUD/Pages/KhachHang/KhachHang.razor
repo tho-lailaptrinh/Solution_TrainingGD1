@@ -5,7 +5,7 @@
 
 @inject NavigationManager NavigationManager;
 
-<h3>KhachHang</h3>
+<h3>Khách Hàng</h3>
 @if (lstKhachHang == null)
 {
     <BlazorServer.CRUD.Component.LoadingIndicator></BlazorServer.CRUD.Component.LoadingIndicator>
@@ -28,12 +28,12 @@ else
                         <td>@item.Name</td>
                         <td>@item.NumberPhone</td>
                         <td>@item.AddressKH</td>
-                            <button class ="btn btn-primary">
-                            <a class="oi oi-pencil bg-white" href="/khachhangupdate/@item.Id"></a>
+                            <button class="btn btn-primary" @onclick="()=>OnUpdateKhachHang(item.Id)">
+                                <i class="oi oi-pencil "></i>
                             </button>
-                        <button class="btn btn-danger" @onclick="()=>OnDeleteKH(item.Id)">
-                            <i class="oi oi-trash"></i>
-                        </button>
+                            <button class="btn btn-danger" @onclick="()=>OnDeleteKH(item.Id)">
+                                <i class="oi oi-trash"></i>
+                            </button>
                     </tr>
                 }
             </tbody>
@@ -69,7 +69,10 @@ else
         NavigationManager.NavigateTo("/khachhangcreate");
     }
 
-
+    public void OnUpdateKhachHang(Guid id)
+    {
+        NavigationManager.NavigateTo($"/khachhangupdate/{id}");
+    }
     public async Task OnDeleteKH(Guid deleteId)
     {
         DeleteId = deleteId;
@@ -81,8 +84,8 @@ else
         if (deleteConfirmation == true)
         {
             await KhachHangService.DeleteKhachHang(DeleteId);
-            //ToastService.ShowSuccess("Delete success");
             NavigationManager.NavigateTo(NavigationManager.Uri, forceLoad: true);
+            ToastService.ShowSuccess($"{requestKH.Name} đã xóa thành công rồi nhé em!","Success");
         }
     }
 }

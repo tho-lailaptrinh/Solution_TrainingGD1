@@ -4,11 +4,12 @@
 @inject IToastService  ToastService;
 @inject NavigationManager NavigationManager;
 
+@using BlazorServer.CRUD.Component.Confir;
 @using BlazorServer.CRUD.Services.ForMemBer;
 @using Blazored.Toast.Services;
 @using PhongKhamNhaKhoa.Model.ForMemBerRequest.KhachHang;
 
-<h3>KhachHangCreate</h3>
+<h3>Thêm Khách Hàng</h3>
 
 @if (NewKhachHang == null)
 {
@@ -16,7 +17,7 @@
 }
 else
 {
-  <EditForm Model="@NewKhachHang" OnSubmit="CreateKhachHang">
+  <EditForm Model="@NewKhachHang" OnSubmit="@(async ()=> await CreateKhachHang())">
          <div class="col">
             <label>Name</label>
             <InputText class="form-control" @bind-Value="@NewKhachHang.Name"></InputText>
@@ -33,22 +34,32 @@ else
             <button type="submit" class="btn btn-success">Submit</button>
         </div>
     </EditForm>
+    <ConfirmationSuccess ConfirmationMessage="@($"Bạn có muốn Thêm không?")" ConfirmationTitle="Thêm Khách Hàng"
+                         @ref="CreateConfirmation" ConfirmationChanged="OnSubmitForm"> </ConfirmationSuccess>
 }
 
 @code {
     private KhachHangCreateRequest NewKhachHang = new KhachHangCreateRequest();
-  
+
+    private ConfirmationSuccess CreateConfirmation { get; set; }
+
     private async Task CreateKhachHang()
     {
-        var result = await KhachHangSer.CreateKhachHang(NewKhachHang);
-        if (result == true)
+        CreateConfirmation.Show();
+    }
+   
+    public async Task OnSubmitForm(bool createphieukham)
+    {
+        if (createphieukham == true)
         {
-            ToastService.ShowSuccess($"{NewKhachHang.Name} has been created successfully.", "Success");
-            NavigationManager.NavigateTo("/showkhachhang");
+            await KhachHangSer.CreateKhachHang(NewKhachHang);
+            NavigationManager.NavigateTo("/showkhachang");
+            ToastService.ShowSuccess($"Đã thêm thành công rồi nhé em!", "Success");
         }
         else
         {
-            ToastService.ShowError($"An error occurred in progress. Please contact to administrator.", "Error");
+            ToastService.ShowError($"Có lỗi rồi thằng ngu. Xem lại đi!!", "Error");
         }
     }
 }
+
