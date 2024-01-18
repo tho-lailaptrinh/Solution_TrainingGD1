@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Components;
 using PhongKhamNhaKhoa.Model;
 using PhongKhamNhaKhoa.Model.ForMemBerRequest;
 using PhongKhamNhaKhoa.Model.ForMemBerRequest.KhachHang;
+using PhongKhamNhaKhoa.Model.ForMemBerRequest.NhanVienCreateRequest;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

@@ -54,3 +54,13 @@ a, .btn-link {
     color: #3c763d;
     border-color: #d6e9c6;
 }
+
+.fullscreen-image {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 70%;
+    height: 70%;
+    object-fit: cover;
+    z-index: -1;
+}

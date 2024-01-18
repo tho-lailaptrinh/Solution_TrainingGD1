@@ -35,7 +35,7 @@ namespace PhongKhamNhaKhoa.Api.Controllers
             return Ok(new KhachHangRequest()
             {
                 Name = khachhang.Name,
-                NumberPhone = Convert.ToInt32(khachhang.NumberPhone),
+                NumberPhone =khachhang.NumberPhone,
                 AddressKH = khachhang.AddressKH,
                 StatusKH = khachhang.StatusKH,
                 Id = khachhang.Id

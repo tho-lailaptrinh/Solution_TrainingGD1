@@ -1,0 +1,74 @@
+﻿@page "/nhanviencreate"
+@using BlazorServer.CRUD.Component.Confir;
+@using BlazorServer.CRUD.Services.ForMemBer;
+@using PhongKhamNhaKhoa.Enum;
+@using PhongKhamNhaKhoa.Model.ForMemBerRequest.NhanVienCreateRequest;
+@inject NhanVienService NhanVienSer;
+@inject NavigationManager NavigationManager;
+@inject IToastService ToastService;
+<h3>NhanVienCreate</h3>
+
+@if (CreateNhanVien == null)
+{
+    <BlazorServer.CRUD.Component.LoadingIndicator></BlazorServer.CRUD.Component.LoadingIndicator>
+}
+else
+{
+    <EditForm Model="@CreateNhanVien" OnSubmit="@(async ()=> await CreateKhachHang())">
+        <div class="col">
+            <label>Name</label>
+            <InputText class="form-control" @bind-Value="@CreateNhanVien.Name"></InputText>
+        </div>
+        <div class="col">
+            <label>NumberPhone</label>
+            <InputNumber class="form-control" @bind-Value="@CreateNhanVien.NumberPhone"></InputNumber>
+        </div>
+        <div class="col">
+            <label>Address</label>
+            <InputText class="form-control" @bind-Value="@CreateNhanVien.AddressNV"></InputText>
+        </div>
+        <div class="col">
+            <label>Prosition</label>
+            <InputSelect class="form-control" @bind-Value="@CreateNhanVien.Position">
+                @foreach (string item in Enum.GetNames(typeof(Position)))
+                {
+                    <option value="@item">@item</option>
+                }
+            </InputSelect>
+        </div>
+        <div class="col m-2">
+            <button type="submit" class="btn btn-success">Submit</button>
+        </div>
+    </EditForm>
+    <ConfirmationSuccess ConfirmationMessage="@($"Bạn có muốn Thêm không?")" ConfirmationTitle="Thêm Khách Hàng"
+                         @ref="CreateConfirmation" ConfirmationChanged="OnSubmitForm"> </ConfirmationSuccess>
+}
+@code {
+    private NhanVienCreateRequest CreateNhanVien = new NhanVienCreateRequest();
+
+    private ConfirmationSuccess CreateConfirmation { get; set; }
+    private List<NhanVienRequest> LstNhanVien;
+    protected override async Task OnInitializedAsync()
+    {
+        LstNhanVien = await NhanVienSer.GetAllNhanVien();
+    }
+
+    private async Task CreateKhachHang()
+    {
+        CreateConfirmation.Show();
+    }
+
+    public async Task OnSubmitForm(bool createphieukham)
+    {
+        if (createphieukham == true)
+        {
+            await NhanVienSer.CreateNhanVienSer(CreateNhanVien);
+            NavigationManager.NavigateTo("/nhanvien");
+            ToastService.ShowSuccess($"Đã thêm thành công rồi nhé em!", "Success");
+        }
+        else
+        {
+            ToastService.ShowError($"Có lỗi rồi thằng ngu. Xem lại đi!!", "Error");
+        }
+    }
+}

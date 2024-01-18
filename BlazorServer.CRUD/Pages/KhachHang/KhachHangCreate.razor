@@ -23,8 +23,8 @@ else
             <InputText class="form-control" @bind-Value="@NewKhachHang.Name"></InputText>
         </div>
         <div class="col">
-            <label>Name</label>
-            <InputNumber class="form-control" @bind-Value="@NewKhachHang.NumberPhone"></InputNumber>
+            <label>NumberPhone</label>
+            <InputText class="form-control" @bind-Value="@NewKhachHang.NumberPhone"></InputText>
         </div>
         <div class="col">
             <label>Address</label>
@@ -42,6 +42,9 @@ else
     private KhachHangCreateRequest NewKhachHang = new KhachHangCreateRequest();
 
     private ConfirmationSuccess CreateConfirmation { get; set; }
+
+    private KhachHangRequest khachhang = new KhachHangRequest();
+
 
     private async Task CreateKhachHang()
     {

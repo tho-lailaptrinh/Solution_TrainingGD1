@@ -3,6 +3,9 @@ using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using PhongKhamNhaKhoa.Api.AutoMapper.EntitiDto;
 using PhongKhamNhaKhoa.Api.Data;
+using PhongKhamNhaKhoa.Api.Entitis;
+using PhongKhamNhaKhoa.Model.ForMemBerRequest.NhanVienCreateRequest;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -17,6 +20,22 @@ namespace PhongKhamNhaKhoa.Api.Repositorys
             _context = context;
             _mapper = mapper;
         }
+
+        public async Task<NhanVien> CreateNhanVien(NhanVienCreateRequest request)
+        {
+            NhanVien nhanvien = new NhanVien()
+            {
+                Name = request.Name,
+                NumberPhone = request.NumberPhone,
+                AddressNV = request.AddressNV,
+                Position = request.Position,
+                Id = Guid.NewGuid()
+            };
+            _context.NhanViens.Add(nhanvien);
+            await _context.SaveChangesAsync();
+            return nhanvien;
+        }
+
         public async Task<IEnumerable<NhanVienDto>> GetAllNhanVien()
         {
             var result = _context.NhanViens.ProjectTo<NhanVienDto>(_mapper.ConfigurationProvider);

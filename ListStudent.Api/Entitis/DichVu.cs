@@ -15,6 +15,6 @@ namespace PhongKhamNhaKhoa.Api.Entitis
         public int Money { get; set; }
         [MaxLength(200)]
         public string Description { get; set; }
-        public virtual ICollection<PhieuKham>? PhieuKhams { get; set; }
+        public virtual ICollection<PhieuKham> PhieuKhams { get; set; }
     }
 }

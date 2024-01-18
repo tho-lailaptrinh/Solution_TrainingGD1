@@ -2,6 +2,7 @@
 using PhongKhamNhaKhoa.Api.Entitis;
 using PhongKhamNhaKhoa.Model.ForMemBerRequest;
 using PhongKhamNhaKhoa.Model.ForMemBerRequest.KhachHang;
+using PhongKhamNhaKhoa.Model.SeedWork;
 using System;
 using System.Collections;
 using System.Collections.Generic;

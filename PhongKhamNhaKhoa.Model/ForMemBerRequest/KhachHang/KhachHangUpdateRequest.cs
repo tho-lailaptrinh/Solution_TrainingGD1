@@ -9,7 +9,7 @@ namespace PhongKhamNhaKhoa.Model.ForMemBerRequest.KhachHang
     public class KhachHangUpdateRequest
     {
         public string Name { get; set; }
-        public int NumberPhone { get; set; }
+        public string NumberPhone { get; set; }
         public string AddressKH { get; set; }
     }
 }

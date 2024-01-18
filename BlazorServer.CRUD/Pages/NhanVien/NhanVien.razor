@@ -1,0 +1,59 @@
+﻿@page "/nhanvien"
+@using BlazorServer.CRUD.Services.ForMemBer;
+@using PhongKhamNhaKhoa.Model.ForMemBerRequest;
+@using PhongKhamNhaKhoa.Model.ForMemBerRequest.NhanVienCreateRequest;
+@inject NhanVienService NhanVienSer;
+@inject NavigationManager NavigationManager;
+
+<h3>NhanVien</h3>
+@if (LstNhanVien == null)
+{
+    <BlazorServer.CRUD.Component.LoadingIndicator></BlazorServer.CRUD.Component.LoadingIndicator>
+}
+else
+{
+     <div class="row">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>NumberPhone</th>
+                    <th>Address</th>
+                    <th>Prosition</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in LstNhanVien)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>@item.NumberPhone</td>
+                        <td>@item.AddressNV</td>
+                        <td>@item.Position</td>
+                        <button class="btn btn-primary">
+                            <i class="oi oi-pencil "></i>
+                        </button>
+                        <button class="btn btn-danger">
+                            <i class="oi oi-trash"></i>
+                        </button>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="row m-3">
+            <button class="btn btn-primary" @onclick="OnCreateNhanVien">Create New</button>
+        </div>
+    </div>
+}
+
+@code {
+    List<NhanVienRequest> LstNhanVien;
+    protected override async Task OnInitializedAsync()
+    {
+        LstNhanVien = await NhanVienSer.GetAllNhanVien();
+    }
+    public void OnCreateNhanVien()
+    {
+        NavigationManager.NavigateTo("/nhanviencreate");
+    }
+}

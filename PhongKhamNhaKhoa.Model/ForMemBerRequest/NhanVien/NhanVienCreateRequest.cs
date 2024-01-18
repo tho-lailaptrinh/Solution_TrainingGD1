@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PhongKhamNhaKhoa.Model.ForMemBerRequest
+namespace PhongKhamNhaKhoa.Model.ForMemBerRequest.NhanVienCreateRequest
 {
-    public class NhanVienRequest
+    public class NhanVienCreateRequest
     {
         public Guid Id { get; set; }
         public string Name { get; set; }

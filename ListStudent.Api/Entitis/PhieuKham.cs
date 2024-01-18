@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PhongKhamNhaKhoa.Api.Entitis
 {
@@ -15,10 +16,10 @@ namespace PhongKhamNhaKhoa.Api.Entitis
         public Guid? IdNhanVien {  get; set; }
         public DateTime? CreateDate { get; set; }
         public Status Status { get; set; }
-        public virtual KhachHang? KhachHang { get; set;}
-        public virtual DichVu? DichVus { get; set; }
-        public virtual PhongKham? PhongKham { get; set; }
-        public virtual NhanVien? NhanViens { get; set; }
+        public virtual KhachHang KhachHang { get; set;}
+        public virtual DichVu DichVus { get; set; }
+        public virtual PhongKham PhongKham { get; set; }
+        public virtual NhanVien NhanViens { get; set; }
 
     }
 }

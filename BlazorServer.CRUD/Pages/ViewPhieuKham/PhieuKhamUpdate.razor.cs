@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using PhongKhamNhaKhoa.Model.ForMemBerRequest;
 using PhongKhamNhaKhoa.Model.ForMemBerRequest.KhachHang;
 using BlazorServer.CRUD.Component.Confir;
+using PhongKhamNhaKhoa.Model.ForMemBerRequest.NhanVienCreateRequest;
 namespace BlazorServer.CRUD.Pages.ViewPhieuKham
 {
     public partial class PhieuKhamUpdate

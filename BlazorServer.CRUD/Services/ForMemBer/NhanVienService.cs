@@ -1,4 +1,4 @@
-﻿using PhongKhamNhaKhoa.Model.ForMemBerRequest;
+﻿using PhongKhamNhaKhoa.Model.ForMemBerRequest.NhanVienCreateRequest;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -18,6 +18,11 @@ namespace BlazorServer.CRUD.Services.ForMemBer
         {
             var result = _httpClient.GetFromJsonAsync<List<NhanVienRequest>>("/api/nhanvien");
             return result;
+        }
+        public async Task<bool> CreateNhanVienSer(NhanVienCreateRequest request)
+        {
+            var result = await _httpClient.PostAsJsonAsync("/api/nhanvien", request);
+            return result.IsSuccessStatusCode;
         }
     }
 }

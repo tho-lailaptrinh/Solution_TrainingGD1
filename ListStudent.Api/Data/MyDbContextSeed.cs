@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
 using PhongKhamNhaKhoa.Api.Data;
 using PhongKhamNhaKhoa.Api.Entitis;
 using PhongKhamNhaKhoa.Enum;
@@ -10,15 +11,35 @@ namespace PhongKhamNhaKhoa.Api.Data
 {
     public class MyDbContextSeed
     {
+        private readonly IPasswordHasher<User> _passwordHasher = new PasswordHasher<User>();
+
         public async Task SeedAsync(MyDbContext context, ILogger<MyDbContextSeed> logger)
         {
+            if (!context.Users.Any())
+            {
+                var user = new User()
+                {
+                    Id = Guid.NewGuid(),
+                    FirstName = "Mr",
+                    LastName = "Tho",
+                    Email = "admin1@gmail.com",
+                    NormalizedEmail = "ADMIN1@GMAIL.COM",
+                    PhoneNumber = "032132131",
+                    UserName = "admin",
+                    NormalizedUserName = "ADMIN",
+                    SecurityStamp = Guid.NewGuid().ToString()
+                };
+                user.PasswordHash = _passwordHasher.HashPassword(user, "Admin@123$");
+                context.Users.Add(user);
+            }
+
             if (!context.KhachHangs.Any())
             {
                 context.KhachHangs.Add(new Entitis.KhachHang()
                 {
                     Id = Guid.NewGuid(),
                     Name = "Mr.Tho",
-                    NumberPhone = 0353838935,
+                    NumberPhone = "0353838935",
                     AddressKH = "GiaLam",
                 });
             }
