@@ -10,8 +10,8 @@ using PhongKhamNhaKhoa.Api.Data;
 namespace PhongKhamNhaKhoa.Api.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20240118134408_Identiti")]
-    partial class Identiti
+    [Migration("20240123100440_dbcontextss")]
+    partial class dbcontextss
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -39,7 +39,9 @@ namespace PhongKhamNhaKhoa.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AppRoleClaim");
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetRoleClaims");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
@@ -60,27 +62,30 @@ namespace PhongKhamNhaKhoa.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AppUserClaim");
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserClaims");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
-                    b.Property<Guid>("UserId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("UserId");
+                    b.HasKey("LoginProvider", "ProviderKey");
 
-                    b.ToTable("AppUserLogin");
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogins");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
@@ -93,27 +98,28 @@ namespace PhongKhamNhaKhoa.Api.Migrations
 
                     b.HasKey("UserId", "RoleId");
 
-                    b.ToTable("AppUserRoles");
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRoles");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
                     b.Property<Guid>("UserId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("UserId");
+                    b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("AppUserUserToken");
+                    b.ToTable("AspNetUserTokens");
                 });
 
             modelBuilder.Entity("PhongKhamNhaKhoa.Api.Entitis.DichVu", b =>
@@ -139,6 +145,20 @@ namespace PhongKhamNhaKhoa.Api.Migrations
                     b.ToTable("DichVus");
                 });
 
+            modelBuilder.Entity("PhongKhamNhaKhoa.Api.Entitis.ImageFile", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ImageString")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ImageFiles");
+                });
+
             modelBuilder.Entity("PhongKhamNhaKhoa.Api.Entitis.KhachHang", b =>
                 {
                     b.Property<Guid>("Id")
@@ -148,25 +168,30 @@ namespace PhongKhamNhaKhoa.Api.Migrations
                     b.Property<string>("AddressKH")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid>("IdImage")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("IdUser")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("NumberPhone")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<int>("StatusKH")
                         .HasColumnType("int");
 
-                    b.Property<Guid?>("UserId")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("IdImage");
+
+                    b.HasIndex("IdUser");
 
                     b.ToTable("KhachHangs");
                 });
@@ -257,6 +282,7 @@ namespace PhongKhamNhaKhoa.Api.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
@@ -265,14 +291,21 @@ namespace PhongKhamNhaKhoa.Api.Migrations
                         .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("NormalizedName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Role");
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
+
+                    b.ToTable("AspNetRoles");
                 });
 
             modelBuilder.Entity("PhongKhamNhaKhoa.Api.Entitis.User", b =>
@@ -285,10 +318,12 @@ namespace PhongKhamNhaKhoa.Api.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
@@ -310,10 +345,12 @@ namespace PhongKhamNhaKhoa.Api.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("NormalizedEmail")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("NormalizedUserName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
@@ -331,20 +368,86 @@ namespace PhongKhamNhaKhoa.Api.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("User");
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("PhongKhamNhaKhoa.Api.Entitis.KhachHang", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
-                    b.HasOne("PhongKhamNhaKhoa.Api.Entitis.User", "Users")
+                    b.HasOne("PhongKhamNhaKhoa.Api.Entitis.Role", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
+                {
+                    b.HasOne("PhongKhamNhaKhoa.Api.Entitis.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
+                {
+                    b.HasOne("PhongKhamNhaKhoa.Api.Entitis.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
+                {
+                    b.HasOne("PhongKhamNhaKhoa.Api.Entitis.Role", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PhongKhamNhaKhoa.Api.Entitis.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
+                {
+                    b.HasOne("PhongKhamNhaKhoa.Api.Entitis.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("PhongKhamNhaKhoa.Api.Entitis.KhachHang", b =>
+                {
+                    b.HasOne("PhongKhamNhaKhoa.Api.Entitis.ImageFile", "ImageFiles")
+                        .WithMany("KhachHangs")
+                        .HasForeignKey("IdImage")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PhongKhamNhaKhoa.Api.Entitis.User", "Users")
+                        .WithMany()
+                        .HasForeignKey("IdUser");
+
+                    b.Navigation("ImageFiles");
 
                     b.Navigation("Users");
                 });
@@ -379,6 +482,11 @@ namespace PhongKhamNhaKhoa.Api.Migrations
             modelBuilder.Entity("PhongKhamNhaKhoa.Api.Entitis.DichVu", b =>
                 {
                     b.Navigation("PhieuKhams");
+                });
+
+            modelBuilder.Entity("PhongKhamNhaKhoa.Api.Entitis.ImageFile", b =>
+                {
+                    b.Navigation("KhachHangs");
                 });
 
             modelBuilder.Entity("PhongKhamNhaKhoa.Api.Entitis.KhachHang", b =>

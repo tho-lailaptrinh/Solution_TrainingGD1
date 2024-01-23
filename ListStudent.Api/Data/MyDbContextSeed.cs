@@ -29,7 +29,7 @@ namespace PhongKhamNhaKhoa.Api.Data
                     NormalizedUserName = "ADMIN",
                     SecurityStamp = Guid.NewGuid().ToString()
                 };
-                user.PasswordHash = _passwordHasher.HashPassword(user, "Admin@123$");
+                user.PasswordHash = _passwordHasher.HashPassword(user, "Admin123");
                 context.Users.Add(user);
             }
 

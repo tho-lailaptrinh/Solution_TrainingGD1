@@ -12,6 +12,7 @@ using PhongKhamNhaKhoa.Api.AutoMapper.Config;
 using PhongKhamNhaKhoa.Api.Data;
 using PhongKhamNhaKhoa.Api.Entitis;
 using PhongKhamNhaKhoa.Api.Repositorys;
+using PhongKhamNhaKhoa.Api.Repositorys.Image;
 using PhongKhamNhaKhoa.Repositorys;
 using System.Reflection;
 using System.Text;
@@ -37,6 +38,7 @@ namespace PhongKhamNhaKhoa.Api
             services.AddTransient<IKhachHangRepository, KhachHangRepository>();
             services.AddTransient<DichVuRepository, DichVuRepository>();
             services.AddTransient<PhongKhamRepository, PhongKhamRepository>();
+            services.AddTransient<IImageRepository, ImageRepository>();
 
             services.AddIdentity<User, Role>().AddEntityFrameworkStores<MyDbContext>(); // add identity
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(option =>
@@ -52,6 +54,7 @@ namespace PhongKhamNhaKhoa.Api
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JwtSecurityKey"])) // dây là nh?ng thông server s? ??c ra và validile bên d??i 
                 };
             });  // add cái scheme và add thêm ?? nó very file
+
 
             services.AddAutoMapper(cfg => cfg.AddProfile(new MappingConfigProfile()));
 
@@ -72,7 +75,6 @@ namespace PhongKhamNhaKhoa.Api
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ListStudent.Api v1"));
             }
-
             app.UseHttpsRedirection();
 
             app.UseRouting();

@@ -1,0 +1,14 @@
+﻿@page "/logout"
+@using BlazorServer.CRUD.Services
+<h3>Logout</h3>
+
+@inject IAuthService AuthService;
+@inject NavigationManager NavigationManager;
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await AuthService.Logout();
+        NavigationManager.NavigateTo("/");
+    }
+}

@@ -1,0 +1,65 @@
+﻿@page "/login"
+@using BlazorServer.CRUD.Services
+@using Blazored.LocalStorage
+@using PhongKhamNhaKhoa.Model;
+@using System.Net.Http.Json
+@using System.Text.Json
+@using System.Net.Http.Headers
+
+@inject NavigationManager  NavigationManager;
+@inject IAuthService AuthService;
+@if (ShowError)
+{
+    <div class="alert alert-danger">
+        <p>@Error</p>
+    </div>
+}
+ <EditForm Model="LoginModel" OnSubmit="HandleLogin">
+        <div class=" card card-body">
+        <div class="row">
+            <div class="col-3"></div>
+            <div class="col-6">
+                <h4 class="text-center text">Login</h4>
+                <DataAnnotationsValidator></DataAnnotationsValidator>
+                <ValidationSummary></ValidationSummary>
+                <div class="col">
+                    <label class="" for="username">UserName</label>
+                    <InputText id="username" class="form-control" @bind-Value="LoginModel.UserName"></InputText>
+                    <ValidationMessage For="()=>LoginModel.UserName"></ValidationMessage>
+                </div>
+                <div class="col">
+                    <label class="" for="password">Password</label>
+                    <InputText id="password" class="form-control" @bind-Value="LoginModel.Password"></InputText>
+                    <ValidationMessage For="()=> LoginModel.Password"></ValidationMessage>
+                </div>
+                <div class="col">
+                    <button type="submit" class="m-2 btn btn-outline-success">Submit</button>
+
+                </div>
+            </div>
+            <div class="col-3"</div>
+        </div>
+    </div>
+</EditForm>
+    
+@code {
+    private bool ShowError;
+    private string Error = "";
+    public LoginRequest LoginModel = new LoginRequest();
+
+    public async Task HandleLogin()
+    {
+        ShowError = false;
+        var result = await AuthService.Login(LoginModel);
+        if (result.Success)
+        {
+            NavigationManager.NavigateTo("/showkhachhang");
+        }
+        else
+        {
+            ShowError = true;
+            Error = result.Error;
+        }
+    }
+
+}

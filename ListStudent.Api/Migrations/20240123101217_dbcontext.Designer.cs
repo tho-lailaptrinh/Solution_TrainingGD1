@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PhongKhamNhaKhoa.Api.Data;
 
 namespace PhongKhamNhaKhoa.Api.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240123101217_dbcontext")]
+    partial class dbcontext
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -143,20 +145,6 @@ namespace PhongKhamNhaKhoa.Api.Migrations
                     b.ToTable("DichVus");
                 });
 
-            modelBuilder.Entity("PhongKhamNhaKhoa.Api.Entitis.ImageFile", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ImageString")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ImageFiles");
-                });
-
             modelBuilder.Entity("PhongKhamNhaKhoa.Api.Entitis.KhachHang", b =>
                 {
                     b.Property<Guid>("Id")
@@ -166,10 +154,7 @@ namespace PhongKhamNhaKhoa.Api.Migrations
                     b.Property<string>("AddressKH")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("IdImage")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("IdUser")
+                    b.Property<Guid?>("IdUser")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
@@ -186,8 +171,6 @@ namespace PhongKhamNhaKhoa.Api.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("IdImage");
 
                     b.HasIndex("IdUser");
 
@@ -435,21 +418,11 @@ namespace PhongKhamNhaKhoa.Api.Migrations
 
             modelBuilder.Entity("PhongKhamNhaKhoa.Api.Entitis.KhachHang", b =>
                 {
-                    b.HasOne("PhongKhamNhaKhoa.Api.Entitis.ImageFile", "ImageFiles")
-                        .WithMany("KhachHangs")
-                        .HasForeignKey("IdImage")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("PhongKhamNhaKhoa.Api.Entitis.User", "Users")
+                        .WithMany()
+                        .HasForeignKey("IdUser");
 
-                    b.HasOne("PhongKhamNhaKhoa.Api.Entitis.User", "User")
-                        .WithMany("KhachHangs")
-                        .HasForeignKey("IdUser")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ImageFiles");
-
-                    b.Navigation("User");
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("PhongKhamNhaKhoa.Api.Entitis.PhieuKham", b =>
@@ -484,11 +457,6 @@ namespace PhongKhamNhaKhoa.Api.Migrations
                     b.Navigation("PhieuKhams");
                 });
 
-            modelBuilder.Entity("PhongKhamNhaKhoa.Api.Entitis.ImageFile", b =>
-                {
-                    b.Navigation("KhachHangs");
-                });
-
             modelBuilder.Entity("PhongKhamNhaKhoa.Api.Entitis.KhachHang", b =>
                 {
                     b.Navigation("PhieuKhams");
@@ -502,11 +470,6 @@ namespace PhongKhamNhaKhoa.Api.Migrations
             modelBuilder.Entity("PhongKhamNhaKhoa.Api.Entitis.PhongKham", b =>
                 {
                     b.Navigation("PhieuKhams");
-                });
-
-            modelBuilder.Entity("PhongKhamNhaKhoa.Api.Entitis.User", b =>
-                {
-                    b.Navigation("KhachHangs");
                 });
 #pragma warning restore 612, 618
         }

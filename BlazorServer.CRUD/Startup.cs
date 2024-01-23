@@ -1,7 +1,11 @@
+﻿using Blazored.LocalStorage;
 using Blazored.Toast;
+using BlazorServer.CRUD.Authentications;
 using BlazorServer.CRUD.Services;
 using BlazorServer.CRUD.Services.ForMemBer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,6 +28,19 @@ namespace BlazorServer.CRUD
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<UserService>();
+            services.AddScoped<ProtectedSessionStorage>();
+            services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
+            // thư viện làm việc với local storage
+            services.AddBlazoredLocalStorage();
+            services.AddAuthenticationCore(); // Author
+            services.AddAuthorizationCore();
+            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<AuthenticationStateProvider, AbcAuthenticationState>(); // phần Config
+
+         
+
+            // Toast
             services.AddBlazoredToast();
 
             services.AddRazorPages();
@@ -57,6 +74,10 @@ namespace BlazorServer.CRUD
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+
 
             app.UseEndpoints(endpoints =>
             {

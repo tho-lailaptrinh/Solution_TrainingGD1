@@ -9,10 +9,21 @@
     </div>
 
     <div class="main">
-        <div class="top-row px-4">
+        <div class="top-row px-4"> 
+            <AuthorizeView>
+                <Authorized>
+                    @* Show view đã được đăng nhập rồi *@
+                    Hello, @context.User.Identity.Name
+                    <a href="/logout">Logout</a>
+                </Authorized>
+                <NotAuthorized>
+                    @* Show view chưa đăng nhập *@
+                    <p class="mt-2">Xin hãy đăng nhập</p>
+                    <a href="/userlogin">Login</a>
+                </NotAuthorized>
+            </AuthorizeView>
             <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
         </div>
-
         <div class="content px-4">
             @Body
         </div>

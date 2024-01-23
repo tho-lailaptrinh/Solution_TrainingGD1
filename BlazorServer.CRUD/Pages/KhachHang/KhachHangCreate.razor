@@ -56,8 +56,8 @@ else
         if (createphieukham == true)
         {
             await KhachHangSer.CreateKhachHang(NewKhachHang);
-            NavigationManager.NavigateTo("/showkhachang");
             ToastService.ShowSuccess($"Đã thêm thành công rồi nhé em!", "Success");
+            NavigationManager.NavigateTo("/showkhachhang");
         }
         else
         {
