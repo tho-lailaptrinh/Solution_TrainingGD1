@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Components.Server;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using PhongKhamNhaKhoa.Model;
 using PhongKhamNhaKhoa.Model.Users;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BlazorServer.CRUD.Authentications
 {
-    public class CustomAuthenticationStateProvider : AuthenticationStateProvider
+    public class CustomAuthenticationStateProvider : ServerAuthenticationStateProvider
     {
         private readonly ProtectedSessionStorage _protectedSession;
         private ClaimsPrincipal _claimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity());

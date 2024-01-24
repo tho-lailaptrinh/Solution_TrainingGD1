@@ -19,7 +19,7 @@ namespace BlazorServer.CRUD.Services
                 new UserAccount{UserName = "user", Password = "user123", Role ="User" }
             };
         }
-        public UserAccount? GetByIdUser(string useName)
+        public UserAccount GetByIdUser(string useName)
         {
             return userAccounts.FirstOrDefault(x => x.UserName == useName);
         }

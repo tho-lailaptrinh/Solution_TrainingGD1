@@ -1,6 +1,7 @@
 ﻿using Blazored.LocalStorage;
 using BlazorServer.CRUD.Authentications;
 using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Components.Server;
 using PhongKhamNhaKhoa.Model;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -14,13 +15,14 @@ namespace BlazorServer.CRUD.Services
     {
         private readonly HttpClient _httpClient;
         private readonly ILocalStorageService _localStorage;
-        private AuthenticationStateProvider _authenticationStateProvider;
-       // private readonly ApiAuthenticationStateProvider _apiAuthenticationStateProvider;
-        public AuthService(HttpClient httpClient, AuthenticationStateProvider authenticationStateProvider, ILocalStorageService localStorage)
+        //private AuthenticationStateProvider _authenticationStateProvider;
+        private readonly AuthenticationStateProvider _serverapiAuthenticationStateProvider;
+        public AuthService(HttpClient httpClient, AuthenticationStateProvider serverapiAuthenticationStateProvider, ILocalStorageService localStorage)
         {
             _httpClient = httpClient;
             _localStorage = localStorage;
-            _authenticationStateProvider = authenticationStateProvider;
+            //_authenticationStateProvider = authenticationStateProvider;
+            _serverapiAuthenticationStateProvider = serverapiAuthenticationStateProvider;
         }
         public async Task<LoginResponse> Login(LoginRequest loginRequest)
         {
@@ -37,14 +39,14 @@ namespace BlazorServer.CRUD.Services
                 return loginResponse;
             }
             await _localStorage.SetItemAsync("authToken", loginResponse.Token); // lưu trữ thông tin xác thực người login
-            ((AbcAuthenticationState)_authenticationStateProvider).MarkUserAsAuthenticated(loginRequest.UserName);
+            ((AbcAuthenticationState)_serverapiAuthenticationStateProvider).MarkUserAsAuthenticated(loginRequest.UserName);
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", loginResponse.Token);
             return loginResponse;
         }
         public async Task Logout()
         {
             await _localStorage.RemoveItemAsync("authenToken"); // logout chỉ cần remove cái authenToken + Mark Logout
-            ((AbcAuthenticationState)_authenticationStateProvider).MarkUserAsLoggedOut();
+            ((AbcAuthenticationState)_serverapiAuthenticationStateProvider).MarkUserAsLoggedOut();
             _httpClient.DefaultRequestHeaders.Authorization = null; // Set Authorization Header null thì sẽ xóa hết đi
         }
     }

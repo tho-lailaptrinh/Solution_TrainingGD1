@@ -64,18 +64,15 @@ namespace PhongKhamNhaKhoa.Api.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "KhachHangs",
+                name: "ImageFile",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    NumberPhone = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
-                    AddressKH = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    StatusKH = table.Column<int>(type: "int", nullable: false)
+                    ImageString = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_KhachHangs", x => x.Id);
+                    table.PrimaryKey("PK_ImageFile", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -212,6 +209,36 @@ namespace PhongKhamNhaKhoa.Api.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "KhachHangs",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    IdUser = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    NumberPhone = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    AddressKH = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    StatusKH = table.Column<int>(type: "int", nullable: false),
+                    IdImage = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    ImageFilesId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_KhachHangs", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_KhachHangs_AspNetUsers_IdUser",
+                        column: x => x.IdUser,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_KhachHangs_ImageFile_ImageFilesId",
+                        column: x => x.ImageFilesId,
+                        principalTable: "ImageFile",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "PhieuKhams",
                 columns: table => new
                 {
@@ -293,6 +320,16 @@ namespace PhongKhamNhaKhoa.Api.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_KhachHangs_IdUser",
+                table: "KhachHangs",
+                column: "IdUser");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_KhachHangs_ImageFilesId",
+                table: "KhachHangs",
+                column: "ImageFilesId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PhieuKhams_IdDichVu",
                 table: "PhieuKhams",
                 column: "IdDichVu");
@@ -337,9 +374,6 @@ namespace PhongKhamNhaKhoa.Api.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
                 name: "DichVus");
 
             migrationBuilder.DropTable(
@@ -350,6 +384,12 @@ namespace PhongKhamNhaKhoa.Api.Migrations
 
             migrationBuilder.DropTable(
                 name: "PhongKhams");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "ImageFile");
         }
     }
 }

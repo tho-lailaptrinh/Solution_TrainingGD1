@@ -1,12 +1,13 @@
 ﻿@page "/userlogin"
 @using BlazorServer.CRUD.Authentications
 @using BlazorServer.CRUD.Services
+@using Microsoft.AspNetCore.Components.Server
 @using PhongKhamNhaKhoa.Model
 @using PhongKhamNhaKhoa.Model.Users
 
 @inject UserService usersevice
 @inject IJSRuntime js;
-@inject AuthenticationStateProvider authenticationState;
+@inject ServerAuthenticationStateProvider authenticationState;
 @inject NavigationManager NavigationManager;
 
 <EditForm Model="LoginModel" OnSubmit="HandleLogin">

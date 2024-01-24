@@ -7,6 +7,6 @@ namespace PhongKhamNhaKhoa.Api.Entitis
     {
         public Guid Id { get; set; }
         public string ImageString { get; set; }
-        public virtual ICollection<KhachHang> KhachHangs { get; set; }
+        public virtual ICollection<KhachHang>? KhachHangs { get; set; }
     }
 }

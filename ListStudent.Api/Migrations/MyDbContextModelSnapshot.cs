@@ -154,7 +154,7 @@ namespace PhongKhamNhaKhoa.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ImageFiles");
+                    b.ToTable("ImageFile");
                 });
 
             modelBuilder.Entity("PhongKhamNhaKhoa.Api.Entitis.KhachHang", b =>
@@ -166,10 +166,13 @@ namespace PhongKhamNhaKhoa.Api.Migrations
                     b.Property<string>("AddressKH")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("IdImage")
+                    b.Property<Guid?>("IdImage")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("IdUser")
+                    b.Property<Guid?>("IdUser")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("ImageFilesId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
@@ -187,9 +190,9 @@ namespace PhongKhamNhaKhoa.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdImage");
-
                     b.HasIndex("IdUser");
+
+                    b.HasIndex("ImageFilesId");
 
                     b.ToTable("KhachHangs");
                 });
@@ -435,21 +438,17 @@ namespace PhongKhamNhaKhoa.Api.Migrations
 
             modelBuilder.Entity("PhongKhamNhaKhoa.Api.Entitis.KhachHang", b =>
                 {
+                    b.HasOne("PhongKhamNhaKhoa.Api.Entitis.User", "Users")
+                        .WithMany()
+                        .HasForeignKey("IdUser");
+
                     b.HasOne("PhongKhamNhaKhoa.Api.Entitis.ImageFile", "ImageFiles")
                         .WithMany("KhachHangs")
-                        .HasForeignKey("IdImage")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PhongKhamNhaKhoa.Api.Entitis.User", "User")
-                        .WithMany("KhachHangs")
-                        .HasForeignKey("IdUser")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ImageFilesId");
 
                     b.Navigation("ImageFiles");
 
-                    b.Navigation("User");
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("PhongKhamNhaKhoa.Api.Entitis.PhieuKham", b =>
@@ -502,11 +501,6 @@ namespace PhongKhamNhaKhoa.Api.Migrations
             modelBuilder.Entity("PhongKhamNhaKhoa.Api.Entitis.PhongKham", b =>
                 {
                     b.Navigation("PhieuKhams");
-                });
-
-            modelBuilder.Entity("PhongKhamNhaKhoa.Api.Entitis.User", b =>
-                {
-                    b.Navigation("KhachHangs");
                 });
 #pragma warning restore 612, 618
         }

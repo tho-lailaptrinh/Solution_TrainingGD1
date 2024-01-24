@@ -9,7 +9,7 @@ namespace PhongKhamNhaKhoa.Api.Data.Configuration
         public void Configure(EntityTypeBuilder<KhachHang> builder)
         {
             builder.HasKey(x => x.Id);
-            builder.HasOne(x => x.ImageFiles).WithMany(x => x.KhachHangs).HasForeignKey(x => x.IdImage);
+            builder.HasOne(x => x.ImageFiles)?.WithMany(x => x.KhachHangs).HasForeignKey(x => x.IdImage);
         }
     }
 }
